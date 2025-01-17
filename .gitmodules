@@ -1,0 +1,6 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/wemaketutor/TutorasSecure
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/MatveyZhikharev/TutoringAssistantFront.git
