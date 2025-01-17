@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+java -Xms512m -Xmx512m -XX:TieredStopAtLevel=1 \
+  -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -jar /code/service.jar
