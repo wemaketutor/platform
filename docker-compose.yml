@@ -1,0 +1,66 @@
+services:
+  backend:
+    <<: &backend
+      image: "backend:dev"
+      build:
+        context: .
+        dockerfile: ./docker/backend/Dockerfile
+      depends_on:
+        - db
+      networks:
+        - backend
+        - monitoring
+    command: runner
+
+  frontend:
+    image: "frontend:dev"
+    build:
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    depends_on:
+      - backend
+    networks:
+      - backend
+    command: runner
+
+  db:
+    image: "postgres:15.2-alpine"
+    restart: unless-stopped
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - db_data_backups:/backups
+    networks:
+      - backend
+    env_file: ./docker/db/.env
+
+  prometheus:
+    image: "prom/prometheus:v3.1.0"
+    restart: unless-stopped
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    depends_on:
+      - backend
+    networks:
+      - monitoring
+
+  grafana:
+    image: "grafana/grafana:11.3.2"
+    volumes:
+      - ./docker/grafana/provisioning/:/etc/grafana/provisioning/
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+    env_file: ./docker/grafana/.env
+
+volumes:
+  db_data: {}
+  db_data_backups: {}
+  prometheus_data: {}
+  grafana_data: {}
+
+networks:
+  backend:
+  monitoring:
