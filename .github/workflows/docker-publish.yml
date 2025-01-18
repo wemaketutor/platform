@@ -14,15 +14,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      packages: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Git Submodule Pull
-        run: |
-          git pull --recurse-submodules
-          git submodule update --remote --recursive
+        with:
+          submodules: recursive
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -43,7 +42,7 @@ jobs:
           push: true
           context: .
           file: ./docker/frontend/Dockerfile
-          tags: wemaketutor/frontend:latest
+          tags: ghcr.io/wemaketutor/frontend:latest
 
       - name: Build backend
         uses: docker/build-push-action@v5
@@ -51,7 +50,7 @@ jobs:
           push: true
           context: .
           file: ./docker/backend/Dockerfile
-          tags: wemaketutor/backend:latest
+          tags: ghcr.io/wemaketutor/backend:latest
 
   deploy:
     runs-on: ubuntu-latest
