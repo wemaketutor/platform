@@ -16,8 +16,10 @@ www.{$DOMAIN_NAME} {
 	header -Server
 
 	handle {
-	    reverse_proxy /api/* localhost:8000/api/*
+	    reverse_proxy /api/* backend:8000/api/*
 		reverse_proxy frontend:5173
+		reverse_proxy /monitoring/* grafana:3000
+		reverse_proxy /metrics/* prometheus:9090
 	}
 
 	encode gzip
