@@ -7,7 +7,7 @@ set -o pipefail
 readonly cmd="$*"
 
 backend () {
-  dockerize -wait 'tcp://backend:8000' -timeout 5s
+  dockerize -wait 'tcp://backend:8081' -timeout 5s
 }
 
 until backend; do
