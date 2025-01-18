@@ -1,5 +1,11 @@
 # See https://caddyserver.com/docs
 
+{
+    servers {
+        metrics
+    }
+}
+
 {$DOMAIN_NAME} {
 	# HTTPS options:
 	header Strict-Transport-Security max-age=31536000;
@@ -19,8 +25,4 @@
 	log {
 		output stdout
 	}
-
-    servers {
-        metrics
-    }
 }
