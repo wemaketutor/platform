@@ -1,6 +1,8 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/wemaketutor/TutorasSecure
+	branch = main
 [submodule "frontend"]
 	path = frontend
 	url = https://github.com/MatveyZhikharev/TutoringAssistantFront.git
+	branch = main
