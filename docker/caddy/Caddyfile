@@ -1,0 +1,28 @@
+# See https://caddyserver.com/docs
+
+{
+	email {$TLS_EMAIL}
+}
+
+www.{$DOMAIN_NAME} {
+	redir https://{$DOMAIN_NAME}{uri}
+}
+
+{$DOMAIN_NAME} {
+	# HTTPS options:
+	header Strict-Transport-Security max-age=31536000;
+
+	# Removing some headers for improved security:
+	header -Server
+
+	handle {
+	    reverse_proxy /api/* localhost:8000/api/*
+		reverse_proxy frontend:5173
+	}
+
+	encode gzip
+
+	log {
+		output stdout
+	}
+}
