@@ -16,7 +16,6 @@
     handle {
         reverse_proxy /api/* backend:8000/api/*
         reverse_proxy /monitoring/* grafana:3000
-        reverse_proxy /metrics/* prometheus:9090
         reverse_proxy frontend:5173
     }
 

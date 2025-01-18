@@ -20,7 +20,6 @@ services:
       - backend
       - frontend
       - grafana
-      - prometheus
     networks:
       - proxy
 
