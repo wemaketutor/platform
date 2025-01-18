@@ -12,6 +12,8 @@ concurrency:
 
 jobs:
   build:
+    if: "!contains(github.event.commits[0].message, '[skip push]')"
+
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -53,6 +55,8 @@ jobs:
           tags: ghcr.io/wemaketutor/backend:latest
 
   deploy:
+    if: "!contains(github.event.commits[0].message, '[skip deploy]')"
+
     runs-on: ubuntu-latest
     needs: build
 
