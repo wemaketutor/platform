@@ -45,7 +45,7 @@ services:
     networks:
       - proxy-net
     expose:
-      3000
+      - 3000
 
   prometheus:
     networks:
