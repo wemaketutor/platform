@@ -13,6 +13,7 @@ concurrency:
 jobs:
   deploy:
     if: "!contains(github.event.commits[0].message, '[skip deploy]')"
+    if: "!contains(github.event.commits[0].message, '[skip ci]')"
 
     runs-on: ubuntu-latest
 

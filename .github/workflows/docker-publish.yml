@@ -13,6 +13,7 @@ concurrency:
 jobs:
   build:
     if: "!contains(github.event.commits[0].message, '[skip push]')"
+    if: "!contains(github.event.commits[0].message, '[skip ci]')"
 
     runs-on: ubuntu-latest
     timeout-minutes: 30
