@@ -4,5 +4,5 @@
 	branch = main
 [submodule "frontend"]
 	path = frontend
-	url = https://github.com/MatveyZhikharev/TutoringAssistantFront
+	url = https://github.com/wemaketutor/frontend.git
 	branch = main
