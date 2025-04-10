@@ -31,7 +31,10 @@ services:
       - db_data_backups:/backups
     networks:
       - backend
-    env_file: ./docker/db/.env
+    environment:
+      - POSTGRES_USER=secret
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=secret
 
   prometheus:
     image: "prom/prometheus:v3.1.0"
@@ -44,8 +47,15 @@ services:
     networks:
       - monitoring
 
+  jaeger:
+    image: "jaegertracing/all-in-one:1.68.0"
+    restart: unless-stopped
+    networks:
+      - monitoring
+
   grafana:
     image: "grafana/grafana:11.3.2"
+    restart: unless-stopped
     volumes:
       - ./docker/grafana/provisioning/:/etc/grafana/provisioning/
       - grafana_data:/var/lib/grafana
@@ -53,13 +63,26 @@ services:
       - prometheus
     networks:
       - monitoring
-    env_file: ./docker/grafana/.env
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=secret
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+      - GF_SERVER_ROOT_URL=/monitoring
+
+  minio:
+    image: "minio/minio"
+    restart: unless-stopped
+    volumes:
+      - minio_data:/data
+    networks:
+      - backend
 
 volumes:
   db_data: {}
   db_data_backups: {}
   prometheus_data: {}
   grafana_data: {}
+  minio_data: {}
 
 networks:
   backend:
